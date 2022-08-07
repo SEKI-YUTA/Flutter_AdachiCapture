@@ -183,7 +183,7 @@ class CaptureScreenState extends State<CaptureScreen> {
     print(probability);
     print(probability.runtimeType);
     if (probability > 0.9) {
-      toAdachiDetail();
+      // toAdachiDetail();
     } else {
       print("else");
     }
@@ -223,18 +223,18 @@ class CaptureScreenState extends State<CaptureScreen> {
     print(probability);
     print(probability.runtimeType);
     if (probability > 0.9) {
-      toAdachiDetail();
+      // toAdachiDetail();
     } else {
       print("else");
     }
   }
 
-  void toAdachiDetail() {
-    print("navigate");
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            // （2） 実際に表示するページ(ウィジェット)を指定する
-            builder: (context) => const DetailPage()));
-  }
+  // void toAdachiDetail() {
+  //   print("navigate");
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //           // （2） 実際に表示するページ(ウィジェット)を指定する
+  //           builder: (context) => const DetailPage()));
+  // }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'Adachi.dart';
+import 'DataStore.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({Key? key}) : super(key: key);
+  DetailPage({Key? key, required this.personName}) : super(key: key);
+  String personName;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -18,11 +19,20 @@ class _DetailPageState extends State<DetailPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    name = Dataset.name;
-    age = Dataset.age;
-    comeFrom = Dataset.comefrom;
-    links = Dataset.links;
+    // name = Dataset.name;
+    // age = Dataset.age;
+    // comeFrom = Dataset.comefrom;
+    // links = Dataset.links;
+    name = Dataset.personsData[widget.personName]["name"];
+    age = Dataset.personsData[widget.personName]["age"];
+    comeFrom = Dataset.personsData[widget.personName]["comeFrom"];
+    links = Dataset.personsData[widget.personName]["links"];
     print(name);
+    print(age);
+    print(comeFrom);
+    for (int i = 0; i < links!.length; i++) {
+      print(links![i]);
+    }
   }
 
   @override
