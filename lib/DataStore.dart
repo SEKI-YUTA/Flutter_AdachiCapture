@@ -13,8 +13,8 @@ class Dataset {
       "age": 23,
       "comefrom": "シンガポール",
       "links": [
-        "https://www.ytv.co.jp/announce/adachi_kaho/"
-            "https://ja.wikipedia.org/wiki/%E8%B6%B3%E7%AB%8B%E5%A4%8F%E4%BF%9D",
+        "https://www.ytv.co.jp/announce/adachi_kaho/",
+        "https://ja.wikipedia.org/wiki/%E8%B6%B3%E7%AB%8B%E5%A4%8F%E4%BF%9D",
       ]
     },
     "岩原アナウンサー": {
@@ -22,8 +22,8 @@ class Dataset {
       "age": 27,
       "comefrom": "高知県",
       "links": [
-        "https://www.ytv.co.jp/announce/iwahara_daiki/"
-            "https://ja.wikipedia.org/wiki/%E5%B2%A9%E5%8E%9F%E5%A4%A7%E8%B5%B7",
+        "https://www.ytv.co.jp/announce/iwahara_daiki/",
+        "https://ja.wikipedia.org/wiki/%E5%B2%A9%E5%8E%9F%E5%A4%A7%E8%B5%B7",
       ]
     },
     "佐藤アナウンサー": {
@@ -31,8 +31,8 @@ class Dataset {
       "age": 25,
       "comefrom": "千葉県",
       "links": [
-        "https://www.ytv.co.jp/announce/sato_kana/"
-            "https://ja.wikipedia.org/wiki/%E4%BD%90%E8%97%A4%E4%BD%B3%E5%A5%88",
+        "https://www.ytv.co.jp/announce/sato_kana/",
+        "https://ja.wikipedia.org/wiki/%E4%BD%90%E8%97%A4%E4%BD%B3%E5%A5%88",
       ]
     }
   };

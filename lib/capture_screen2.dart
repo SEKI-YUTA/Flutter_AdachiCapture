@@ -52,6 +52,7 @@ class _CaptureScreen2State extends State<CaptureScreen2> {
           }
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           try {
@@ -149,7 +150,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     print(personCount);
 
     for (int i = 0; i < personCount; i++) {
-      var probability = jsonData["predictions"][0]["probability"];
+      var probability = jsonData["predictions"][i]["probability"];
       print(probability);
       if (probability > maxProbability) {
         setState(() {
@@ -164,19 +165,44 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture')),
+      appBar: AppBar(title: const Text('')),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
       body: Stack(
         children: [
           Expanded(child: Image.file(File(widget.imagePath))),
           personName != null
-              ? ElevatedButton(
-                  onPressed: () {
-                    toAdachiDetail(personName);
-                  },
-                  child: Text("$personNameの詳細ページへ行く"))
-              : Text("")
+              ? Positioned(
+                  bottom: 50,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () async {
+                              toAdachiDetail(personName);
+                            },
+                            child: Text("$personNameの詳細ページへ行く")),
+                      ],
+                    ),
+                  ),
+                )
+              : Positioned(
+                  bottom: 50,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "読み込み中",
+                          style: TextStyle(color: Colors.white, fontSize: 30),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
         ],
       ),
     );
