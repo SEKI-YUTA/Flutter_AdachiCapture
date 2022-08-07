@@ -1,15 +1,13 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import './capture_screen.dart';
+import './capture_screen2.dart';
 
 Future<void> main() async {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CaptureScreen(),
-    );
-  }
+  WidgetsFlutterBinding.ensureInitialized();
+  final cameras = await availableCameras();
+  final firstCamera = cameras.first;
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: CaptureScreen2(firstCamera: firstCamera),
+  ));
 }
