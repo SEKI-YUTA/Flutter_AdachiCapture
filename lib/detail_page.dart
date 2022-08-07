@@ -25,13 +25,14 @@ class _DetailPageState extends State<DetailPage> {
     // links = Dataset.links;
     name = Dataset.personsData[widget.personName]["name"];
     age = Dataset.personsData[widget.personName]["age"];
-    comeFrom = Dataset.personsData[widget.personName]["comeFrom"];
+    comeFrom = Dataset.personsData[widget.personName]["comefrom"];
     links = Dataset.personsData[widget.personName]["links"];
     print(name);
     print(age);
     print(comeFrom);
     for (int i = 0; i < links!.length; i++) {
       print(links![i]);
+      print("\n");
     }
   }
 

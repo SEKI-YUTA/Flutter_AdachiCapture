@@ -176,7 +176,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                     toAdachiDetail(personName);
                   },
                   child: Text("$personNameの詳細ページへ行く"))
-              : Text("data")
+              : Text("")
         ],
       ),
     );
