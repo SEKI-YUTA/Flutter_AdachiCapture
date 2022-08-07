@@ -1,0 +1,52 @@
+{
+  "id": "3037180f-2ca1-4ad9-a015-386e1128dad8",
+  "project": "df8b1072-cbf1-4b76-a03e-f810b9e75b2e",
+  "iteration": "faecb4ad-7ad0-4f49-8510-8f7388b03fdc",
+  "created": "2022-08-07T23:25:34.520Z",
+  "predictions": [
+    {
+      "probability": 0.9981767,
+      "tagId": "30bcea97-61de-44b2-82dd-c7297db4c9cf",
+      "tagName": "adati",
+      "boundingBox": {
+        "left": 0.3168166,
+        "top": 0.11939275,
+        "width": 0.3922917,
+        "height": 0.30053475
+      }
+    },
+    {
+      "probability": 0.029471446,
+      "tagId": "30bcea97-61de-44b2-82dd-c7297db4c9cf",
+      "tagName": "adati",
+      "boundingBox": {
+        "left": 0.26809078,
+        "top": 0.062171284,
+        "width": 0.59912133,
+        "height": 0.40341058
+      }
+    },
+    {
+      "probability": 0.016497124,
+      "tagId": "30bcea97-61de-44b2-82dd-c7297db4c9cf",
+      "tagName": "adati",
+      "boundingBox": {
+        "left": 0.6376469,
+        "top": 0.9426634,
+        "width": 0.3623531,
+        "height": 0.05733663
+      }
+    },
+    {
+      "probability": 0.017907502,
+      "tagId": "dd67a19c-a675-43e4-986b-ca09920c3ec3",
+      "tagName": "sat",
+      "boundingBox": {
+        "left": 0.32078347,
+        "top": 0.102119565,
+        "width": 0.37599888,
+        "height": 0.3135209
+      }
+    }
+  ]
+}

@@ -96,10 +96,18 @@ class DisplayPictureScreen extends StatefulWidget {
 }
 
 class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
-  List<String> nameList = ["足立アナウンサー", "岩原アナウンサー", "佐藤アナウンサー"];
+  // List<String> nameList = ["足立アナウンサー", "岩原アナウンサー", "佐藤アナウンサー"];
+  Map<String, String> tagNameDic = {
+    "adati": "足立アナウンサー",
+    "sat": "佐藤アナウンサー",
+    "Iwahara": "岩原アナウンサー"
+  };
+  String _message = "処理中。。。";
   var imgByteData;
   var _content;
   String? personName;
+  double maxProbability = 0.0;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -140,25 +148,31 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       _content = resp.body;
     });
 
-    // print("azure response");
-    // print(resp.body);
+    print("azure response");
+    print(resp.body);
 
     var jsonData = json.decode(resp.body);
-    double maxProbability = 0.0;
+    maxProbability = 0.0;
     int personCount = jsonData["predictions"].length;
     print("length");
     print(personCount);
 
     for (int i = 0; i < personCount; i++) {
       var probability = jsonData["predictions"][i]["probability"];
+      var tagName = jsonData["predictions"][i]["tagName"];
       print(probability);
       if (probability > maxProbability) {
         setState(() {
           maxProbability = probability;
-          personName = nameList[i];
+          personName = tagName;
         });
       }
-      ;
+    }
+    if (maxProbability < 0.6) {
+      setState(() {
+        personName = null;
+        _message = "検出出来ませんでした";
+      });
     }
   }
 
@@ -183,7 +197,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                             onPressed: () async {
                               toAdachiDetail(personName);
                             },
-                            child: Text("$personNameの詳細ページへ行く")),
+                            child: Text("${tagNameDic[personName]}の詳細ページへ行く")),
                       ],
                     ),
                   ),
@@ -196,7 +210,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "読み込み中",
+                          _message,
                           style: TextStyle(color: Colors.white, fontSize: 30),
                         ),
                       ],

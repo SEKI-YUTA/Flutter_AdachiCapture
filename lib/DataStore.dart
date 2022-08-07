@@ -8,7 +8,7 @@ class Dataset {
   // ];
   List<String> nameList = ["足立アナウンサー", "岩原アナウンサー", "佐藤アナウンサー"];
   static Map<String, dynamic> personsData = {
-    "足立アナウンサー": {
+    "adati": {
       "name": "足立夏保",
       "age": 23,
       "comefrom": "シンガポール",
@@ -17,7 +17,7 @@ class Dataset {
         "https://ja.wikipedia.org/wiki/%E8%B6%B3%E7%AB%8B%E5%A4%8F%E4%BF%9D",
       ]
     },
-    "岩原アナウンサー": {
+    "Iwahara": {
       "name": "岩原大起",
       "age": 27,
       "comefrom": "高知県",
@@ -26,7 +26,7 @@ class Dataset {
         "https://ja.wikipedia.org/wiki/%E5%B2%A9%E5%8E%9F%E5%A4%A7%E8%B5%B7",
       ]
     },
-    "佐藤アナウンサー": {
+    "sat": {
       "name": "佐藤佳奈",
       "age": 25,
       "comefrom": "千葉県",
