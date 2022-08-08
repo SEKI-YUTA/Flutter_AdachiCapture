@@ -1,4 +1,4 @@
-import './detail_picture_screen.dart';
+import 'display_picture_screen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
