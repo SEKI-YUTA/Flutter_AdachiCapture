@@ -1,4 +1,7 @@
-import 'package:adachi_capture/webview_screen.dart';
+// import 'package:adachi_capture/webview_screen.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'DataStore.dart';
@@ -17,6 +20,7 @@ class _DetailScreenState extends State<DetailScreen> {
     "岩原大起": "https://www.ytv.co.jp/announce/iwahara_daiki/images/img_main.jpg",
     "佐藤佳奈": "https://www.ytv.co.jp/announce/sato_kana/images/img_main.jpg",
   };
+  static const platform = MethodChannel("adachi.capture.line/intent");
   String specialPerson = "足立夏保";
   String? name;
   int? age;
@@ -25,6 +29,10 @@ class _DetailScreenState extends State<DetailScreen> {
   TextStyle prefixStyle = TextStyle(fontSize: 20);
   TextStyle itemStyle = TextStyle(fontSize: 26);
   TextStyle linkStyle = TextStyle(fontSize: 14, color: Colors.blue[800]);
+
+  Future<void> _lineIntent() async {
+    await platform.invokeListMethod("sendLineIntent");
+  }
 
   @override
   void initState() {
@@ -93,7 +101,8 @@ class _DetailScreenState extends State<DetailScreen> {
             name == specialPerson
                 ? ElevatedButton(
                     onPressed: () {
-                      launchUrl(Uri.parse("https://lin.ee/NKKmZgz"));
+                      // launchUrl(Uri.parse("https://lin.ee/NKKmZgz"));
+                      _lineIntent();
                       // Navigator.of(context).push(new MaterialPageRoute(
                       //     builder: (context) => WebViewScreen(
                       //         pageUrl: "https://lin.ee/NKKmZgz")));
