@@ -5,7 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import './detail_page.dart';
+import 'detail_screen.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 class CaptureScreen extends StatefulWidget {

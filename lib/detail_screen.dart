@@ -1,21 +1,23 @@
+import 'package:adachi_capture/webview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'DataStore.dart';
 
-class DetailPage extends StatefulWidget {
-  DetailPage({Key? key, required this.personName}) : super(key: key);
+class DetailScreen extends StatefulWidget {
+  DetailScreen({Key? key, required this.personName}) : super(key: key);
   String personName;
 
   @override
-  State<DetailPage> createState() => _DetailPageState();
+  State<DetailScreen> createState() => _DetailScreenState();
 }
 
-class _DetailPageState extends State<DetailPage> {
+class _DetailScreenState extends State<DetailScreen> {
   Map<String, String> profileImages = {
     "足立夏保": "https://www.ytv.co.jp/announce/adachi_kaho/images/img_main.jpg",
     "岩原大起": "https://www.ytv.co.jp/announce/iwahara_daiki/images/img_main.jpg",
     "佐藤佳奈": "https://www.ytv.co.jp/announce/sato_kana/images/img_main.jpg",
   };
+  String specialPerson = "足立夏保";
   String? name;
   int? age;
   String? comeFrom;
@@ -88,10 +90,16 @@ class _DetailPageState extends State<DetailPage> {
                   .toList(),
             ),
             const SizedBox(height: 10),
-            ElevatedButton(
-                onPressed: () =>
-                    {launchUrl(Uri.parse("https://lin.ee/NKKmZgz"))},
-                child: Text("足立Botを使う"))
+            name == specialPerson
+                ? ElevatedButton(
+                    onPressed: () {
+                      launchUrl(Uri.parse("https://lin.ee/NKKmZgz"));
+                      // Navigator.of(context).push(new MaterialPageRoute(
+                      //     builder: (context) => WebViewScreen(
+                      //         pageUrl: "https://lin.ee/NKKmZgz")));
+                    },
+                    child: Text("足立Botを使う"))
+                : Container()
           ],
         ),
       ),
