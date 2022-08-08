@@ -8,6 +8,7 @@ Future<void> main() async {
   final firstCamera = cameras.first;
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
+    theme: ThemeData(primaryColor: Colors.red),
     home: CaptureScreen2(firstCamera: firstCamera),
   ));
 }
