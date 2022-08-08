@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:adachi_capture/SecretInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -39,20 +40,16 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     File file = File(imgPath);
     imgByteData = file.readAsBytesSync();
 
-    String url =
-        "https://japaneast.api.cognitive.microsoft.com/customvision/v3.0/Prediction/df8b1072-cbf1-4b76-a03e-f810b9e75b2e/detect/iterations/Iteration3/image";
+    String url = SecretInfo.azureEndpoint;
     Map<String, String> headers = {
       'Content-type': 'application/json',
-      // 'Ocp-Apim-Subscription-Key': '{17812ecc9a5c4b249c42038bd5d58d30}'
-      'Prediction-Key': '003dff7ccfda4c5aa9ba7d98f7f31098'
+      'Prediction-Key': SecretInfo.predictionKey
     };
-    // String body = json.encode({"data": byte1.toString()});
     var body = imgByteData;
     ;
 
     http.Response resp =
         await http.post(Uri.parse(url), headers: headers, body: body);
-    print("statuc code");
     print(resp.statusCode);
     if (resp.statusCode != 200) {
       setState(() {
