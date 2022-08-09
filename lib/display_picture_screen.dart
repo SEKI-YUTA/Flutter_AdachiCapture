@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:adachi_capture/DataStore.dart';
 import 'package:adachi_capture/SecretInfo.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'detail_screen.dart';
@@ -21,7 +23,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     "sat": "佐藤アナウンサー",
     "Iwahara": "岩原アナウンサー"
   };
-  String _message = "処理中。。。";
+  String _message = "";
   var imgByteData;
   var _content;
   String? personName;
@@ -33,10 +35,24 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     print("image path");
     print(widget.imagePath);
     sendDataByByte(widget.imagePath);
+    // showDialog(widget.imagePath);
   }
 
-  void sendDataByByte(String imgPath) async {
+  void showDialog(String imgPath) async {
+    List<Future<void>> futureList = [];
+    futureList.add(sendDataByByte(imgPath));
+    final ProgressDialog pr = ProgressDialog(context);
+    pr.style(message: "処理中です。");
+    await pr.show();
+    await Future.wait(futureList);
+    pr.hide();
+  }
+
+  Future<void> sendDataByByte(String imgPath) async {
     // XFile? file =  await ImagePicker().pickImage(source: ImageSource);
+    ProgressDialog pr = ProgressDialog(context);
+    pr.style(message: "処理中です");
+    pr.show();
     File file = File(imgPath);
     imgByteData = file.readAsBytesSync();
 
@@ -46,7 +62,6 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       'Prediction-Key': SecretInfo.predictionKey
     };
     var body = imgByteData;
-    ;
 
     http.Response resp =
         await http.post(Uri.parse(url), headers: headers, body: body);
@@ -62,14 +77,14 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       _content = resp.body;
     });
 
-    print("azure response");
-    print(resp.body);
+    // print("azure response");
+    // print(resp.body);
 
     var jsonData = json.decode(resp.body);
     maxProbability = 0.0;
     int personCount = jsonData["predictions"].length;
-    print("length");
-    print(personCount);
+    // print("length");
+    // print(personCount);
 
     for (int i = 0; i < personCount; i++) {
       var probability = jsonData["predictions"][i]["probability"];
@@ -88,6 +103,8 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
         _message = "検出出来ませんでした";
       });
     }
+
+    // pr.hide();
   }
 
   @override
@@ -96,40 +113,96 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       appBar: AppBar(title: const Text('')),
       body: Stack(
         children: [
-          Expanded(child: Image.file(File(widget.imagePath))),
-          personName != null
-              ? Positioned(
-                  bottom: 50,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                            onPressed: () async {
-                              toPersonDetail(personName);
-                            },
-                            child: Text("${tagNameDic[personName]}の詳細ページへ行く")),
-                      ],
-                    ),
-                  ),
-                )
-              : Positioned(
-                  bottom: 50,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          _message,
-                          style: TextStyle(color: Colors.white, fontSize: 30),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
+          SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Expanded(
+                child:
+                    //     Image.asset(
+                    //   "assets/images/sky.jpg",
+                    //   fit: BoxFit.cover,
+                    // )
+                    Image.file(File(widget.imagePath)),
+              )),
+          personName != null ? SimpleProfile(context) : UserMessage(context)
         ],
+      ),
+    );
+  }
+
+  Widget SimpleProfile(BuildContext context) {
+    return Positioned(
+      bottom: 0,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(colors: [
+          Color.fromARGB(0, 0, 0, 0),
+          Color.fromARGB(0, 0, 0, 0),
+          Color.fromARGB(0, 0, 0, 0),
+          Color.fromARGB(0, 0, 0, 0),
+          Color.fromARGB(50, 0, 0, 0),
+          Color.fromARGB(200, 0, 0, 0)
+        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              height: 140,
+              child: Column(
+                children: [
+                  // Row(
+                  //   children: [
+                  //     Text(Dataset.personsData["adati"]["name"]),
+                  //     Text(Dataset.personsData["adati"]["age"].toString())
+                  //   ],
+                  // ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Text(
+                      "${Dataset.personsData[personName]["name"]} ${Dataset.personsData[personName]["age"]}歳",
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                          onPressed: () async {
+                            toPersonDetail(personName);
+                          },
+                          child: Text(
+                            "${tagNameDic[personName]}の詳細ページへ行く",
+                            style: const TextStyle(color: Colors.white60),
+                          )),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget UserMessage(BuildContext context) {
+    return Positioned(
+      bottom: 50,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              _message,
+              style: const TextStyle(color: Colors.white, fontSize: 30),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -140,7 +213,6 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            // （2） 実際に表示するページ(ウィジェット)を指定する
             builder: (context) => DetailScreen(
                   personName: personName,
                 )));

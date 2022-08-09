@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import './capture_screen2.dart';
-import './test_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +12,5 @@ Future<void> main() async {
     themeMode: ThemeMode.light,
     debugShowCheckedModeBanner: false,
     home: CaptureScreen2(firstCamera: firstCamera),
-    // home: MyWidget(),
   ));
 }
