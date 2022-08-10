@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:adachi_capture/DataStore.dart';
 import 'package:adachi_capture/SecretInfo.dart';
 import 'package:flutter/material.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'detail_screen.dart';
@@ -34,25 +33,39 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     super.initState();
     print("image path");
     print(widget.imagePath);
-    sendDataByByte(widget.imagePath);
-    // showDialog(widget.imagePath);
+    // sendDataByByte(widget.imagePath);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      startDialog(widget.imagePath);
+    });
   }
 
-  void showDialog(String imgPath) async {
-    List<Future<void>> futureList = [];
-    futureList.add(sendDataByByte(imgPath));
-    final ProgressDialog pr = ProgressDialog(context);
-    pr.style(message: "処理中です。");
-    await pr.show();
-    await Future.wait(futureList);
-    pr.hide();
+  void startDialog(String imgPath) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) {
+          return Dialog(
+              child: Container(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("処理中です。")
+                    ],
+                  )));
+        });
+
+    await Future.wait([sendDataByByte(imgPath)]);
+
+    Navigator.of(context).pop();
   }
 
   Future<void> sendDataByByte(String imgPath) async {
     // XFile? file =  await ImagePicker().pickImage(source: ImageSource);
-    ProgressDialog pr = ProgressDialog(context);
-    pr.style(message: "処理中です");
-    pr.show();
     File file = File(imgPath);
     imgByteData = file.readAsBytesSync();
 
