@@ -23,8 +23,13 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     "Iwahara": "岩原アナウンサー"
   };
   String _message = "";
+  // 画像のバイナリデータ
   var imgByteData;
+  // Azureのレスポンス
   var _content;
+  // アナウンサーの情報(json)
+  var personsData;
+  var detectedPersonData;
   String? personName;
   double maxProbability = 0.0;
 
@@ -58,10 +63,30 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                     ],
                   )));
         });
+    // コード改修の際に無駄にリクエストを送らないようにするためにコメントアウトする
+    await Future.wait([sendDataByByte(imgPath), getPersonsData()]);
 
-    await Future.wait([sendDataByByte(imgPath)]);
+    // こっちは別にコメントアウトしなくてOK
 
     Navigator.of(context).pop();
+  }
+
+  Future<void> getPersonsData() async {
+    // curl -H "X-Cybozu-API-Token: QH8RCWNDu0bjXh2P1yKwxGt5vUKyrYAay4oKO87w" "https://tvd42re6v9r9.cybozu.com/k/v1/records.json?app=7"
+    var res = await http.get(
+        Uri.parse("https://tvd42re6v9r9.cybozu.com/k/v1/records.json?app=7"),
+        headers: {
+          "X-Cybozu-API-Token": "QH8RCWNDu0bjXh2P1yKwxGt5vUKyrYAay4oKO87w"
+        });
+    var rawRes = utf8.decode(res.bodyBytes);
+    personsData = json.decode(rawRes);
+
+    print("personsData");
+    print(personsData.toString());
+
+    setState(() {
+      personsData = personsData;
+    });
   }
 
   Future<void> sendDataByByte(String imgPath) async {
@@ -91,7 +116,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     });
 
     // print("azure response");
-    // print(resp.body);
+    print(resp.body);
 
     var jsonData = json.decode(resp.body);
     maxProbability = 0.0;
@@ -102,6 +127,8 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     for (int i = 0; i < personCount; i++) {
       var probability = jsonData["predictions"][i]["probability"];
       var tagName = jsonData["predictions"][i]["tagName"];
+      print("tagName");
+      print(jsonData["predictions"][i]["tagName"]);
       print(probability);
       if (probability > maxProbability) {
         setState(() {
@@ -137,13 +164,29 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                     // )
                     Image.file(File(widget.imagePath)),
               )),
-          personName != null ? SimpleProfile(context) : UserMessage(context)
+          personName != null && personsData != null
+              ? SimpleProfile(context)
+              : UserMessage(context)
         ],
       ),
     );
   }
 
   Widget SimpleProfile(BuildContext context) {
+    print("simpleProfile");
+    var detectPersonData;
+    for (int i = 0; i < personsData["records"].length; i++) {
+      print(personsData["records"][i]["name"]["value"].toString());
+      print(personsData["records"][i]["_name"]["value"].toString());
+      if (personName ==
+          personsData["records"][i]["_name"]["value"].toString()) {
+        detectPersonData = personsData["records"][i];
+        print("matched");
+      }
+    }
+    setState(() {
+      detectedPersonData = detectPersonData;
+    });
     return Positioned(
       bottom: 0,
       child: Container(
@@ -166,16 +209,10 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
               height: 140,
               child: Column(
                 children: [
-                  // Row(
-                  //   children: [
-                  //     Text(Dataset.personsData["adati"]["name"]),
-                  //     Text(Dataset.personsData["adati"]["age"].toString())
-                  //   ],
-                  // ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Text(
-                      "${Dataset.personsData[personName]["name"]} ${Dataset.personsData[personName]["age"]}歳",
+                      "${detectPersonData["name"]["value"]} ${detectPersonData["age"]["value"]}歳",
                       textAlign: TextAlign.start,
                       style: const TextStyle(fontSize: 20, color: Colors.white),
                     ),
@@ -188,7 +225,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                             toPersonDetail(personName);
                           },
                           child: Text(
-                            "${tagNameDic[personName]}の詳細ページへ行く",
+                            "${detectPersonData["name"]["value"]}の詳細ページへ行く",
                             style: const TextStyle(color: Colors.white60),
                           )),
                     ],
@@ -203,6 +240,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
   }
 
   Widget UserMessage(BuildContext context) {
+    print("UserMessage");
     return Positioned(
       bottom: 50,
       child: SizedBox(
@@ -227,7 +265,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
         context,
         MaterialPageRoute(
             builder: (context) => DetailScreen(
-                  personName: personName,
+                  detectPersonData: detectedPersonData,
                 )));
   }
 }

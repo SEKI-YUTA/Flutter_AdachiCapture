@@ -1,0 +1,104 @@
+{
+  "records": [
+    {
+      "レコード番号": { "type": "RECORD_NUMBER", "value": "7" },
+      "_name": { "type": "SINGLE_LINE_TEXT", "value": "sat" },
+      "更 新者": {
+        "type": "MODIFIER",
+        "value": {
+          "code": "ocs.ichinose.yuto.0526@gmail.com",
+          "name": "一ノ瀬裕斗"
+        }
+      },
+      "作成者": {
+        "type": "CREATOR",
+        "value": {
+          "code": "ocs.ichinose.yuto.0526@gmail.com",
+          "name": "一ノ瀬裕斗"
+        }
+      },
+      "comefrom": { "type": "SINGLE_LINE_TEXT", "value": "千葉県" },
+      "$revision": { "type": "__REVISION__", "value": "4" },
+      "更新日時": { "type": "UPDATED_TIME", "value": "2022-08-12T13:39:00Z" },
+      "name": { "type": "SINGLE_LINE_TEXT", "value": "佐藤佳奈" },
+      "links": {
+        "type": "SINGLE_LINE_TEXT",
+        "value": "https://www.ytv.co.jp/announce/sato_kana/|https://ja.wikipedia.org/wiki/%E4%BD%90%E8%97%A4%E4%BD%B3%E5%A5%88"
+      },
+      "profileImg": {
+        "type": "LINK",
+        "value": "https://www.ytv.co.jp/announce/sato_kana/images/img_main.jpg"
+      },
+      "作成日時": { "type": "CREATED_TIME", "value": "2022-08-12T12:11:00Z" },
+      "age": { "type": "SINGLE_LINE_TEXT", "value": "25" },
+      "$id": { "type": "__ID__", "value": "7" }
+    },
+    {
+      "レコード番号": { "type": "RECORD_NUMBER", "value": "6" },
+      "_name": { "type": "SINGLE_LINE_TEXT", "value": "Iwahara" },
+      "更新者": {
+        "type": "MODIFIER",
+        "value": {
+          "code": "ocs.ichinose.yuto.0526@gmail.com",
+          "name": "一ノ瀬裕斗"
+        }
+      },
+      "作成者": {
+        "type": "CREATOR",
+        "value": {
+          "code": "ocs.ichinose.yuto.0526@gmail.com",
+          "name": "一ノ瀬裕斗"
+        }
+      },
+      "comefrom": { "type": "SINGLE_LINE_TEXT", "value": "高知県" },
+      "$revision": { "type": "__REVISION__", "value": "4" },
+      "更新日時": { "type": "UPDATED_TIME", "value": "2022-08-12T13:40:00Z" },
+      "name": { "type": "SINGLE_LINE_TEXT", "value": "岩原大起" },
+      "links": {
+        "type": "SINGLE_LINE_TEXT",
+        "value": "https://www.ytv.co.jp/announce/iwahara_daiki/|https://ja.wikipedia.org/wiki/%E5%B2%A9%E5%8E%9F%E5%A4%A7%E8%B5%B7"
+      },
+      "profileImg": {
+        "type": "LINK",
+        "value": "https://www.ytv.co.jp/announce/iwahara_daiki/images/img_main.jpg"
+      },
+      "作成日時": { "type": "CREATED_TIME", "value": "2022-08-12T12:10:00Z" },
+      "age": { "type": "SINGLE_LINE_TEXT", "value": "27" },
+      "$id": { "type": "__ID__", "value": "6" }
+    },
+    {
+      "レコード番 号": { "type": "RECORD_NUMBER", "value": "5" },
+      "_name": { "type": "SINGLE_LINE_TEXT", "value": "adati" },
+      "更新者": {
+        "type": "MODIFIER",
+        "value": {
+          "code": "ocs.ichinose.yuto.0526@gmail.com",
+          "name": "一ノ瀬裕斗"
+        }
+      },
+      "作成者": {
+        "type": "CREATOR",
+        "value": {
+          "code": "ocs.ichinose.yuto.0526@gmail.com",
+          "name": "一ノ瀬裕斗"
+        }
+      },
+      "comefrom": { "type": "SINGLE_LINE_TEXT", "value": "シンガポール" },
+      "$revision": { "type": "__REVISION__", "value": "5" },
+      "更新日時": { "type": "UPDATED_TIME", "value": "2022-08-12T13:40:00Z" },
+      "name": { "type": "SINGLE_LINE_TEXT", "value": "足立夏保" },
+      "links": {
+        "type": "SINGLE_LINE_TEXT",
+        "value": "https://www.ytv.co.jp/announce/adachi_kaho/|https://ja.wikipedia.org/wiki/%E8%B6%B3%E7%AB%8B%E5%A4%8F%E4%BF%9D"
+      },
+      "profileImg": {
+        "type": "LINK",
+        "value": "https://www.ytv.co.jp/announce/adachi_kaho/images/img_main.jpg"
+      },
+      "作成日時": { "type": "CREATED_TIME", "value": "2022-08-12T12:09:00Z" },
+      "age": { "type": "SINGLE_LINE_TEXT", "value": "23" },
+      "$id": { "type": "__ID__", "value": "5" }
+    }
+  ],
+  "totalCount": null
+}
