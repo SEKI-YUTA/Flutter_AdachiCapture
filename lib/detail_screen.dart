@@ -15,19 +15,21 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  Map<String, String> profileImages = {
-    "足立夏保": "https://www.ytv.co.jp/announce/adachi_kaho/images/img_main.jpg",
-    "岩原大起": "https://www.ytv.co.jp/announce/iwahara_daiki/images/img_main.jpg",
-    "佐藤佳奈": "https://www.ytv.co.jp/announce/sato_kana/images/img_main.jpg",
-  };
+  // DataStoreに移行
+  // Map<String, String> profileImages = {
+  //   "足立夏保": "https://www.ytv.co.jp/announce/adachi_kaho/images/img_main.jpg",
+  //   "岩原大起": "https://www.ytv.co.jp/announce/iwahara_daiki/images/img_main.jpg",
+  //   "佐藤佳奈": "https://www.ytv.co.jp/announce/sato_kana/images/img_main.jpg",
+  // };
   static const platform = MethodChannel("adachi.capture.line/intent");
   String specialPerson = "足立夏保";
   String? name;
   int? age;
   String? comeFrom;
+  String? profileImgLink;
   List<String>? links;
-  TextStyle prefixStyle = TextStyle(fontSize: 20);
-  TextStyle itemStyle = TextStyle(fontSize: 26);
+  TextStyle prefixStyle = const TextStyle(fontSize: 20);
+  TextStyle itemStyle = const TextStyle(fontSize: 26);
   TextStyle linkStyle = TextStyle(fontSize: 14, color: Colors.blue[800]);
 
   Future<void> _lineIntent() async {
@@ -36,33 +38,22 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // name = Dataset.name;
-    // age = Dataset.age;
-    // comeFrom = Dataset.comefrom;
-    // links = Dataset.links;
     name = Dataset.personsData[widget.personName]["name"];
     age = Dataset.personsData[widget.personName]["age"];
     comeFrom = Dataset.personsData[widget.personName]["comefrom"];
+    profileImgLink = Dataset.personsData[widget.personName]["profileImg"];
     links = Dataset.personsData[widget.personName]["links"];
-    print(name);
-    print(age);
-    print(comeFrom);
-    for (int i = 0; i < links!.length; i++) {
-      print(links![i]);
-      print("\n");
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(top: 60, left: 20, right: 20),
+        padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
         child: Column(
           children: [
-            Image.network(profileImages[name]!),
+            Image.network(profileImgLink!),
             const SizedBox(height: 10),
             Row(
               children: [
@@ -101,29 +92,20 @@ class _DetailScreenState extends State<DetailScreen> {
             name == specialPerson
                 ? ElevatedButton(
                     onPressed: () {
+                      // 方法1 url_launcherで起動しようとしてもエラー
                       // launchUrl(Uri.parse("https://lin.ee/NKKmZgz"));
-                      _lineIntent();
+                      // 方法2 web_viewをアプリに組み込んでも同じくエラー
                       // Navigator.of(context).push(new MaterialPageRoute(
                       //     builder: (context) => WebViewScreen(
                       //         pageUrl: "https://lin.ee/NKKmZgz")));
+                      // 方法3 ネイティブコードからインテントを飛ばすとうまくラインが立ち上がる
+                      _lineIntent();
                     },
-                    child: Text("足立Botを使う"))
+                    child: const Text("足立Botを使う"))
                 : Container()
           ],
         ),
       ),
     );
   }
-
-  // List<Widget> getLinksArea() {
-  //   List<Widget> linkItems = [];
-  //   for (int i = 0; i < links!.length; i++) {
-  //     Widget item = Row(
-  //       children: [Text(links![i], style: linkStyle)],
-  //     );
-  //     linkItems.add(item);
-  //   }
-
-  //   return linkItems;
-  // }
 }

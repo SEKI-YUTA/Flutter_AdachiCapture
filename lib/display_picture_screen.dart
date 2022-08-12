@@ -49,7 +49,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                   padding: EdgeInsets.all(20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
+                    children: const [
                       CircularProgressIndicator(),
                       SizedBox(
                         width: 10,
@@ -90,14 +90,9 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       _content = resp.body;
     });
 
-    // print("azure response");
-    // print(resp.body);
-
     var jsonData = json.decode(resp.body);
     maxProbability = 0.0;
     int personCount = jsonData["predictions"].length;
-    // print("length");
-    // print(personCount);
 
     for (int i = 0; i < personCount; i++) {
       var probability = jsonData["predictions"][i]["probability"];
@@ -116,8 +111,6 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
         _message = "検出出来ませんでした";
       });
     }
-
-    // pr.hide();
   }
 
   @override
@@ -130,12 +123,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Expanded(
-                child:
-                    //     Image.asset(
-                    //   "assets/images/sky.jpg",
-                    //   fit: BoxFit.cover,
-                    // )
-                    Image.file(File(widget.imagePath)),
+                child: Image.file(File(widget.imagePath)),
               )),
           personName != null ? SimpleProfile(context) : UserMessage(context)
         ],
@@ -166,12 +154,6 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
               height: 140,
               child: Column(
                 children: [
-                  // Row(
-                  //   children: [
-                  //     Text(Dataset.personsData["adati"]["name"]),
-                  //     Text(Dataset.personsData["adati"]["age"].toString())
-                  //   ],
-                  // ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Text(
@@ -212,7 +194,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
           children: [
             Text(
               _message,
-              style: const TextStyle(color: Colors.white, fontSize: 30),
+              style: const TextStyle(color: Colors.red, fontSize: 30),
             ),
           ],
         ),

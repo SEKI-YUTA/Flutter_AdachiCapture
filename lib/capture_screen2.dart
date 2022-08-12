@@ -67,26 +67,17 @@ class _CaptureScreen2State extends State<CaptureScreen2> {
           )
         ],
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: takePicAndDisplay,
-      //   child: const Icon(Icons.camera),
-      // ),
     );
   }
 
   void takePicAndDisplay() async {
     try {
-      // Ensure that the camera is initialized.
       await _initializeControllerFuture;
 
-      // Attempt to take a picture and get the file `image`
-      // where it was saved.
       final image = await _controller.takePicture();
 
       if (!mounted) return;
 
-      // If the picture was taken, display it on a new screen.
       await Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => DisplayPictureScreen(
