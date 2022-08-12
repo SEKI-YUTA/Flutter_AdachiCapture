@@ -47,6 +47,7 @@ class _DetailScreenState extends State<DetailScreen> {
     age = int.parse(widget.detectPersonData["age"]["value"]);
     comeFrom = widget.detectPersonData["comefrom"]["value"];
     links = widget.detectPersonData["links"]["value"].toString().split("|");
+    profileImgLink = widget.detectPersonData["profileImg"]["value"];
     print(name);
     print(age);
     print(comeFrom);
