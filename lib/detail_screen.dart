@@ -7,8 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'DataStore.dart';
 
 class DetailScreen extends StatefulWidget {
-  DetailScreen({Key? key, required this.personName}) : super(key: key);
-  String personName;
+  DetailScreen({Key? key, required this.detectPersonData}) : super(key: key);
+  final Map<String, dynamic> detectPersonData;
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -39,11 +39,21 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
-    name = Dataset.personsData[widget.personName]["name"];
-    age = Dataset.personsData[widget.personName]["age"];
-    comeFrom = Dataset.personsData[widget.personName]["comefrom"];
-    profileImgLink = Dataset.personsData[widget.personName]["profileImg"];
-    links = Dataset.personsData[widget.personName]["links"];
+    // name = Dataset.name;
+    // age = Dataset.age;
+    // comeFrom = Dataset.comefrom;
+    // links = Dataset.links;
+    name = widget.detectPersonData["name"]["value"];
+    age = int.parse(widget.detectPersonData["age"]["value"]);
+    comeFrom = widget.detectPersonData["comefrom"]["value"];
+    links = widget.detectPersonData["links"]["value"].toString().split("|");
+    print(name);
+    print(age);
+    print(comeFrom);
+    for (int i = 0; i < links!.length; i++) {
+      print(links![i]);
+      print("\n");
+    }
   }
 
   @override
