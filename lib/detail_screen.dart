@@ -25,9 +25,10 @@ class _DetailScreenState extends State<DetailScreen> {
   String? name;
   int? age;
   String? comeFrom;
+  String? profileImgLink;
   List<String>? links;
-  TextStyle prefixStyle = TextStyle(fontSize: 20);
-  TextStyle itemStyle = TextStyle(fontSize: 26);
+  TextStyle prefixStyle = const TextStyle(fontSize: 16);
+  TextStyle itemStyle = const TextStyle(fontSize: 20);
   TextStyle linkStyle = TextStyle(fontSize: 14, color: Colors.blue[800]);
 
   Future<void> _lineIntent() async {
@@ -46,6 +47,7 @@ class _DetailScreenState extends State<DetailScreen> {
     age = int.parse(widget.detectPersonData["age"]["value"]);
     comeFrom = widget.detectPersonData["comefrom"]["value"];
     links = widget.detectPersonData["links"]["value"].toString().split("|");
+    profileImgLink = widget.detectPersonData["profileImg"]["value"];
     print(name);
     print(age);
     print(comeFrom);
@@ -59,57 +61,69 @@ class _DetailScreenState extends State<DetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(top: 60, left: 20, right: 20),
-        child: Column(
-          children: [
-            Image.network(profileImages[name]!),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Text("名前:", style: prefixStyle),
-                Expanded(child: Text(name!, style: itemStyle), flex: 1)
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Text("年齢:", style: prefixStyle),
-                Expanded(child: Text(age.toString(), style: itemStyle), flex: 1)
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Text("出身地:", style: prefixStyle),
-                Expanded(child: Text(comeFrom!, style: itemStyle), flex: 1)
-              ],
-            ),
-            const SizedBox(height: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: links!
-                  .map((e) => InkWell(
-                        child: Text(
-                          e,
-                          style: linkStyle,
-                        ),
-                        onTap: () async => {launchUrl(Uri.parse(e))},
-                      ))
-                  .toList(),
-            ),
-            const SizedBox(height: 10),
-            name == specialPerson
-                ? ElevatedButton(
-                    onPressed: () {
-                      // launchUrl(Uri.parse("https://lin.ee/NKKmZgz"));
-                      _lineIntent();
-                      // Navigator.of(context).push(new MaterialPageRoute(
-                      //     builder: (context) => WebViewScreen(
-                      //         pageUrl: "https://lin.ee/NKKmZgz")));
-                    },
-                    child: Text("足立Botを使う"))
-                : Container()
-          ],
+        padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.network(profileImgLink!),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Text("名前:", style: prefixStyle),
+                  Expanded(child: Text(name!, style: itemStyle), flex: 1)
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Text("年齢:", style: prefixStyle),
+                  Expanded(
+                      child: Text("${age.toString()}歳", style: itemStyle),
+                      flex: 1)
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Text("出身地:", style: prefixStyle),
+                  Expanded(child: Text(comeFrom!, style: itemStyle), flex: 1)
+                ],
+              ),
+              const SizedBox(height: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("リンク集"),
+                  ...links!
+                      .map((e) => InkWell(
+                            child: Text(
+                              e,
+                              style: linkStyle,
+                            ),
+                            onTap: () async => {launchUrl(Uri.parse(e))},
+                          ))
+                      .toList()
+                ],
+              ),
+              const SizedBox(height: 10),
+              name == specialPerson
+                  ? ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.yellow),
+                      onPressed: () {
+                        // 方法1 url_launcherで起動しようとしてもエラー
+                        // launchUrl(Uri.parse("https://lin.ee/NKKmZgz"));
+                        // 方法2 web_viewをアプリに組み込んでも同じくエラー
+                        // Navigator.of(context).push(new MaterialPageRoute(
+                        //     builder: (context) => WebViewScreen(
+                        //         pageUrl: "https://lin.ee/NKKmZgz")));
+                        // 方法3 ネイティブコードからインテントを飛ばすとうまくラインが立ち上がる
+                        _lineIntent();
+                      },
+                      child: const Text("足立Botを使ってみる", style: TextStyle(color: Colors.black54),))
+                  : Container()
+            ],
+          ),
         ),
       ),
     );

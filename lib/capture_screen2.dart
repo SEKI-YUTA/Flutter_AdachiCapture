@@ -1,6 +1,7 @@
 import 'display_picture_screen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CaptureScreen2 extends StatefulWidget {
   List<CameraDescription>? cameras;
@@ -64,6 +65,29 @@ class _CaptureScreen2State extends State<CaptureScreen2> {
                 ],
               ),
             ),
+          ),
+          Positioned(
+            bottom: 30,
+            right: 30,
+            child: IconButton(
+                iconSize: 50,
+                onPressed: () async {
+                  final ImagePicker _picker = ImagePicker();
+                  final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+                  if(image != null && image.path != null) {
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => DisplayPictureScreen(
+                          imagePath: image!.path,
+                        ),
+                      ),
+                    );
+                  }
+                },
+                icon: const Icon(
+                  Icons.image,
+                  color: Colors.white,
+                )),
           )
         ],
       ),
