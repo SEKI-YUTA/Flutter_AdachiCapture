@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class Dataset {
   // static String name = "足立夏保";
   // static int age = 23;
@@ -8,6 +10,7 @@ class Dataset {
   // ];
   List<String> nameList = ["足立アナウンサー", "岩原アナウンサー", "佐藤アナウンサー"];
   static Map<String, dynamic> personsData = {
+    "detectedPerson": null,
     "adati": {
       "name": "足立夏保",
       "age": 23,
