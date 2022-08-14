@@ -1,13 +1,12 @@
 // import 'package:adachi_capture/webview_screen.dart';
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'DataStore.dart';
 
 class DetailScreen extends StatefulWidget {
-  DetailScreen({Key? key, required this.detectPersonData}) : super(key: key);
+  const DetailScreen({Key? key, required this.detectPersonData})
+      : super(key: key);
   final Map<String, dynamic> detectPersonData;
 
   @override
@@ -28,8 +27,8 @@ class _DetailScreenState extends State<DetailScreen> {
   String? comeFrom;
   String? profileImgLink;
   List<String>? links;
-  TextStyle prefixStyle = const TextStyle(fontSize: 20);
-  TextStyle itemStyle = const TextStyle(fontSize: 26);
+  TextStyle prefixStyle = const TextStyle(fontSize: 16);
+  TextStyle itemStyle = const TextStyle(fontSize: 20);
   TextStyle linkStyle = TextStyle(fontSize: 14, color: Colors.blue[800]);
 
   Future<void> _lineIntent() async {
@@ -62,59 +61,78 @@ class _DetailScreenState extends State<DetailScreen> {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
-        child: Column(
-          children: [
-            Image.network(profileImgLink!),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Text("名前:", style: prefixStyle),
-                Expanded(child: Text(name!, style: itemStyle), flex: 1)
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Text("年齢:", style: prefixStyle),
-                Expanded(child: Text(age.toString(), style: itemStyle), flex: 1)
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Text("出身地:", style: prefixStyle),
-                Expanded(child: Text(comeFrom!, style: itemStyle), flex: 1)
-              ],
-            ),
-            const SizedBox(height: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: links!
-                  .map((e) => InkWell(
-                        child: Text(
-                          e,
-                          style: linkStyle,
-                        ),
-                        onTap: () async => {launchUrl(Uri.parse(e))},
-                      ))
-                  .toList(),
-            ),
-            const SizedBox(height: 10),
-            name == specialPerson
-                ? ElevatedButton(
-                    onPressed: () {
-                      // 方法1 url_launcherで起動しようとしてもエラー
-                      // launchUrl(Uri.parse("https://lin.ee/NKKmZgz"));
-                      // 方法2 web_viewをアプリに組み込んでも同じくエラー
-                      // Navigator.of(context).push(new MaterialPageRoute(
-                      //     builder: (context) => WebViewScreen(
-                      //         pageUrl: "https://lin.ee/NKKmZgz")));
-                      // 方法3 ネイティブコードからインテントを飛ばすとうまくラインが立ち上がる
-                      _lineIntent();
-                    },
-                    child: const Text("足立Botを使う"))
-                : Container()
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.network(profileImgLink!),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Text("名前:", style: prefixStyle),
+                  Expanded(child: Text(name!, style: itemStyle), flex: 1)
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Text("年齢:", style: prefixStyle),
+                  Expanded(
+                      child: Text("${age.toString()}歳", style: itemStyle),
+                      flex: 1)
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Text("出身地:", style: prefixStyle),
+                  Expanded(child: Text(comeFrom!, style: itemStyle), flex: 1)
+                ],
+              ),
+              const SizedBox(height: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("リンク集"),
+                  ...links!
+                      .map((e) => Container(
+                            margin: const EdgeInsets.only(top: 5),
+                            child: InkWell(
+                              child: Text(
+                                e,
+                                style: linkStyle,
+                              ),
+                              onTap: () async => {launchUrl(Uri.parse(e))},
+                            ),
+                          ))
+                      .toList()
+                ],
+              ),
+              const SizedBox(height: 10),
+              name == specialPerson
+                  ? SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: ElevatedButton(
+                          style:
+                              ElevatedButton.styleFrom(primary: Colors.yellow),
+                          onPressed: () {
+                            // 方法1 url_launcherで起動しようとしてもエラー
+                            // launchUrl(Uri.parse("https://lin.ee/NKKmZgz"));
+                            // 方法2 web_viewをアプリに組み込んでも同じくエラー
+                            // Navigator.of(context).push(new MaterialPageRoute(
+                            //     builder: (context) => WebViewScreen(
+                            //         pageUrl: "https://lin.ee/NKKmZgz")));
+                            // 方法3 ネイティブコードからインテントを飛ばすとうまくラインが立ち上がる
+                            _lineIntent();
+                          },
+                          child: const Text(
+                            "足立Botを使ってみる",
+                            style: TextStyle(color: Colors.black54),
+                          )),
+                    )
+                  : Container()
+            ],
+          ),
         ),
       ),
     );

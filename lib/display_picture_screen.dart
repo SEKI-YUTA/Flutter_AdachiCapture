@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'detail_screen.dart';
+import './DataStore.dart';
 
 class DisplayPictureScreen extends StatefulWidget {
   final String imagePath;
@@ -51,7 +52,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
         builder: (_) {
           return Dialog(
               child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
@@ -175,6 +176,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     setState(() {
       detectedPersonData = detectPersonData;
     });
+    Dataset.personsData["detectedPerson"] = detectedPersonData;
     return Positioned(
       bottom: 0,
       child: Container(
@@ -248,12 +250,13 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
 
   void toPersonDetail(String? personName) {
     print(personName);
+    print(Dataset.personsData["detectedPerson"]);
     if (personName == null) return;
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => DetailScreen(
-                  detectPersonData: detectedPersonData,
+                  detectPersonData: Dataset.personsData["detectedPerson"],
                 )));
   }
 }
