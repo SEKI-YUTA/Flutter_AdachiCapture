@@ -144,7 +144,10 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('')),
+      appBar: AppBar(
+        title: const Text(''),
+        backgroundColor: Colors.yellow,
+      ),
       body: Stack(
         children: [
           SizedBox(

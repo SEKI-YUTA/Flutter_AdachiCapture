@@ -42,6 +42,7 @@ dependencies:
   webview_flutter: ^3.0.4
   progress_dialog: ^1.2.4
   flutter_launcher_icons: ^0.10.0
+  connectivity_plus: ^2.3.6+1
 
 dev_dependencies:
   flutter_test:

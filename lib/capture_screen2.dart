@@ -2,6 +2,7 @@ import 'display_picture_screen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class CaptureScreen2 extends StatefulWidget {
   List<CameraDescription>? cameras;
@@ -19,6 +20,7 @@ class _CaptureScreen2State extends State<CaptureScreen2> {
   @override
   void initState() {
     super.initState();
+    checkNetwork();
     _controller = CameraController(widget.firstCamera, ResolutionPreset.high);
 
     _initializeControllerFuture = _controller.initialize();
@@ -30,6 +32,39 @@ class _CaptureScreen2State extends State<CaptureScreen2> {
     _controller.dispose();
   }
 
+  void checkNetwork() async {
+    var connectivity_status = await (Connectivity().checkConnectivity());
+    if (!(connectivity_status == ConnectivityResult.wifi) &&
+        !(connectivity_status == ConnectivityResult.mobile)) {
+      await showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return WillPopScope(
+                child: Scaffold(
+                    backgroundColor: Color.fromARGB(100, 0, 0, 0),
+                    body: Container(
+                      width: double.infinity,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "ネットワークに接続してください",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red),
+                          ),
+                        ],
+                      ),
+                    )),
+                onWillPop: () async => false);
+          });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,22 +73,28 @@ class _CaptureScreen2State extends State<CaptureScreen2> {
           Container(
             decoration: const BoxDecoration(color: Colors.black87),
           ),
-          FutureBuilder<void>(
-            future: _initializeControllerFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return CameraPreview(_controller);
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            },
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height - 100,
+            child: FutureBuilder<void>(
+              future: _initializeControllerFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return CameraPreview(_controller);
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
           ),
           Positioned(
-            bottom: 30,
+            bottom: 0,
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
+              height: 100,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
                       iconSize: 60,
@@ -67,7 +108,7 @@ class _CaptureScreen2State extends State<CaptureScreen2> {
             ),
           ),
           Positioned(
-            bottom: 30,
+            bottom: 20,
             right: 30,
             child: IconButton(
                 iconSize: 50,
