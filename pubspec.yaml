@@ -41,6 +41,7 @@ dependencies:
   url_launcher: ^6.1.5
   webview_flutter: ^3.0.4
   progress_dialog: ^1.2.4
+  flutter_launcher_icons: ^0.10.0
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +58,11 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
+
+flutter_icons:
+  android: true
+  image_path: "assets/images/adachi_capture_icon.jpg"
+
 flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

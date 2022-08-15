@@ -73,12 +73,13 @@ class _CaptureScreen2State extends State<CaptureScreen2> {
                 iconSize: 50,
                 onPressed: () async {
                   final ImagePicker _picker = ImagePicker();
-                  final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-                  if(image != null && image.path != null) {
+                  final XFile? image =
+                      await _picker.pickImage(source: ImageSource.gallery);
+                  if (image != null && image.path != null) {
                     await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => DisplayPictureScreen(
-                          imagePath: image!.path,
+                          imagePath: image.path,
                         ),
                       ),
                     );
